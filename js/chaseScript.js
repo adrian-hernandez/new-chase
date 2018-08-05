@@ -469,7 +469,7 @@ function trollBundle(){
     init();
     animate();
   }
-  allowStart = true;s
+  allowStart = true;
 }
 
 function chaseBundle(){
@@ -478,5 +478,5 @@ function chaseBundle(){
     init();
     animate();
   }
-  allowStart = true;s
+  allowStart = true;
 }
