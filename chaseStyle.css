@@ -1,6 +1,7 @@
 body {
   margin: 0px;
-  background-color: dimgray;
+  background: linear-gradient(black, darkblue, 
+    red, orange, lightyellow, lightyellow);
 }
 
 #trollStyle{
@@ -38,14 +39,14 @@ body {
   margin-top: 10px;
   font-style: bold;
   text-align: center;
-  color: black;
+  color: white;
 }
 #bestScore {
   font-size: 20px;
   margin-top: 10px;
   font-style: bold;
   text-align: center;
-  color: black;
+  color: white;
 }
 #container {
   width: 50vw;
