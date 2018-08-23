@@ -106,7 +106,7 @@ function init() {
   audio.play();
   //took code from here and placed it in the function drawBox
 
-  for ( var i = 0; i < nChasers; i++ ) {
+  for ( let i = 0; i < nChasers; i++ ) {
       chaser = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial( { color: 0x72A3C4} ) );
       chaser.position.set( enemyRangeX/2 - enemyRangeX * Math.random(),
                  enemyRangeY/2 - enemyRangeY * Math.random(),
@@ -115,7 +115,7 @@ function init() {
       chasers.push( chaser );
   }
   //create and store hoggers
-  for ( var i = 0; i < nHoggers; i++ ) {
+  for ( let i = 0; i < nHoggers; i++ ) {
     hogger = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial( { color: 0xB35675} ) );
     hogger.position.set( enemyRangeX/2 - enemyRangeX * Math.random(),
                enemyRangeY/2 - enemyRangeY * Math.random(),
@@ -124,7 +124,7 @@ function init() {
     hoggers.push( hogger );
   }
   //create and store terrorizers
-  for ( var i = 0; i < nTrolls; i++ ) {
+  for ( let i = 0; i < nTrolls; i++ ) {
     troll = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial( { color: 0x76F26F} ) );
     troll.position.set( enemyRangeX/2 - enemyRangeX * Math.random(),
                enemyRangeY/2 - enemyRangeY * Math.random(),
@@ -153,7 +153,7 @@ function onMouseMove( event ) {
 
 function chase(){
   //deal with chasers
-  for ( var i = 0; i < chasers.length; i++ ){
+  for ( let i = 0; i < chasers.length; i++ ){
     if(player.position.x > chasers[i].position.x){
       chasers[i].position.x+= chaseSpeed;
     }else{
@@ -178,7 +178,7 @@ function chase(){
 
 //This function needs to be modified
 function hog(){
-  for ( var i = 0; i < hoggers.length; i++ ){
+  for ( let i = 0; i < hoggers.length; i++ ){
     if( hoggers[i].position.distanceTo( gem.position ) > 5 * sphereRadius){
       if(gem.position.x > hoggers[i].position.x){
         hoggers[i].position.x+= hogSpeed;
@@ -207,7 +207,7 @@ function hog(){
 
 //This function need to be modified
 function trollOn(){
-  for ( var i = 0; i < trolls.length; i++ ){
+  for ( let i = 0; i < trolls.length; i++ ){
     if ( trolls[i].position.y < -enemyRangeY/2 ) { // if the enemy has moved below the container
       trolls[i].position.x = enemyRangeX/2 - enemyRangeX * Math.random(); //set new x-coord for variety
       trolls[i].position.y = enemyRangeY/2; // set y-coord at top of container
@@ -227,10 +227,10 @@ function trollOn(){
 }
 
 function enemyAura(){
-  for ( var i = 0; i < chasers.length; i++ ){
+  for ( let i = 0; i < chasers.length; i++ ){
 
     //chaser to gem aura
-    for ( var a = 0; a < hoggers.length; a++ ){
+    for ( let a = 0; a < hoggers.length; a++ ){
       //chaser to chaser aura
       if(chasers[i].position.distanceTo(gem.position) <= 4 * sphereRadius){
         if(chasers[i].position.x > gem.position.x){
@@ -246,7 +246,7 @@ function enemyAura(){
       }
     }
 
-    for ( var j = 0; j < chasers.length; j++ ){
+    for ( let j = 0; j < chasers.length; j++ ){
 
       //chaser to chaser aura
       if(chasers[i].position.distanceTo(chasers[j].position) <= 4 * sphereRadius){
@@ -268,7 +268,7 @@ function enemyAura(){
     }
 
     //chaser to hogger aura
-    for ( var k = 0; k < hoggers.length; k++ ){
+    for ( let k = 0; k < hoggers.length; k++ ){
       if(chasers[i].position.distanceTo(hoggers[k].position) <= 4 * sphereRadius){
         if(chasers[i].position.x > hoggers[k].position.x){
           chasers[i].position.x+= chaseSpeed;
@@ -288,7 +288,7 @@ function enemyAura(){
     }
 
     //chaser to troll aura
-    for ( var n = 0; n < trolls.length; n++ ){
+    for ( let n = 0; n < trolls.length; n++ ){
       //chaser to chaser aura
       if(chasers[i].position.distanceTo(trolls[n].position) <= 3 * sphereRadius){
         if(chasers[i].position.x > trolls[n].position.x){
@@ -312,10 +312,10 @@ function enemyAura(){
 
 
   //For loop specifically for hoggers
-  for(var i = 0; i < hoggers.length; i++){
+  for ( let i = 0; i < hoggers.length; i++){
 
     //hogger to gem aura
-    for ( var b = 0; b < hoggers.length; b++ ){
+    for ( let b = 0; b < hoggers.length; b++ ){
       if(hoggers[i].position.distanceTo(gem.position) <= 4 * sphereRadius){
         if(hoggers[i].position.x > gem.position.x){
           hoggers[i].position.x+= hogSpeed;
@@ -331,7 +331,7 @@ function enemyAura(){
     }
 
     //hogger to hogger aura
-    for ( var j = 0; j < hoggers.length; j++ ){
+    for ( let j = 0; j < hoggers.length; j++ ){
       if(hoggers[i].position.distanceTo(hoggers[j].position) <= 3 * sphereRadius){
         if(hoggers[i].position.x > hoggers[j].position.x){
           hoggers[i].position.x+= hogSpeed;
@@ -351,7 +351,7 @@ function enemyAura(){
     }
 
     //hogger to troll aura
-    for ( var k = 0; k < trolls.length; k++ ){
+    for ( let k = 0; k < trolls.length; k++ ){
       if(hoggers[i].position.distanceTo(trolls[k].position) <= 4 * sphereRadius){
         if(hoggers[i].position.x > trolls[k].position.x){
           hoggers[i].position.x+= hogSpeed;
@@ -372,10 +372,10 @@ function enemyAura(){
   }
 
 //For loop specifically for trolls
-  for(var i = 0; i < trolls.length; i++){
+  for ( let i = 0; i < trolls.length; i++){
 
 
-    for ( var c = 0; c < trolls.length; c++ ){
+    for ( let c = 0; c < trolls.length; c++ ){
       if(trolls[i].position.distanceTo(gem.position) <= 4 * sphereRadius){
         if(trolls[i].position.x > gem.position.x){
           trolls[i].position.x+= trollSpeed;
@@ -391,7 +391,7 @@ function enemyAura(){
     }
 
     //troll to troll aura
-    for ( var j = 0; j < trolls.length; j++ ){
+    for ( let j = 0; j < trolls.length; j++ ){
       if(trolls[i].position.distanceTo(trolls[j].position) <= 10 * sphereRadius){
         if(trolls[i].position.x > trolls[j].position.x){
           trolls[i].position.x+= trollSpeed;
