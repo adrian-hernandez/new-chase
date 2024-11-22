@@ -1,16 +1,12 @@
 class Gem extends GameObject {
     constructor(geometry) {
-        super(geometry, 0xDFE66A, {
-            x: gemRange/2 - gemRange * Math.random(),
-            y: gemRange/2 - gemRange * Math.random()
-        });
+        super(geometry, GameConfig.colors.gem, {});
     }
 
     resetPosition() {
-        this.mesh.position.set(
-            gemRange/2 - gemRange * Math.random(),
-            gemRange/2 - gemRange * Math.random(),
-            0.0
-        );
+        const boundaries = level.getVisibleBoundaries();
+        const randomX = (boundaries.right - boundaries.left) * Math.random() + boundaries.left;
+        const randomY = (boundaries.top - boundaries.bottom) * Math.random() + boundaries.bottom;
+        this.mesh.position.set(randomX, randomY, 0.0);
     }
 }

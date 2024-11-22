@@ -4,11 +4,13 @@ class GameObject {
             geometry,
             new THREE.MeshPhongMaterial({ color: color })
         );
-        this.mesh.position.set(
-            position.x || (enemyRangeX/2 - enemyRangeX * Math.random()),
-            position.y || (enemyRangeY/2 - enemyRangeY * Math.random()),
-            0.0
-        );
+        
+        // Use boundaries for random positioning instead of fixed ranges
+        const boundaries = level.getVisibleBoundaries();
+        const randomX = position.x || (boundaries.right - boundaries.left) * Math.random() + boundaries.left;
+        const randomY = position.y || (boundaries.top - boundaries.bottom) * Math.random() + boundaries.bottom;
+        
+        this.mesh.position.set(randomX, randomY, 0.0);
     }
 
     // Position accessors
@@ -31,10 +33,10 @@ class GameObject {
         const boundaries = level.getVisibleBoundaries();
         
         return {
-            x: Math.max(boundaries.left + sphereRadius, 
-               Math.min(boundaries.right - sphereRadius, x)),
-            y: Math.max(boundaries.bottom + sphereRadius, 
-               Math.min(boundaries.top - sphereRadius, y))
+            x: Math.max(boundaries.left + GameConfig.sphereRadius, 
+               Math.min(boundaries.right - GameConfig.sphereRadius, x)),
+            y: Math.max(boundaries.bottom + GameConfig.sphereRadius, 
+               Math.min(boundaries.top - GameConfig.sphereRadius, y))
         };
     }
 } 

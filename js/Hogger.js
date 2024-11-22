@@ -1,6 +1,6 @@
 class Hogger extends Enemy {
     constructor(geometry) {
-        super(geometry, 0xB35675, {});
+        super(geometry, GameConfig.colors.hogger, {});
     }
 
     seek(gem) {
@@ -10,7 +10,7 @@ class Hogger extends Enemy {
         let newY = myPos.y;
 
         // Only move if far enough from gem
-        if(this.distanceTo(gem) > 5 * sphereRadius) {
+        if(this.distanceTo(gem) > 5 * GameConfig.sphereRadius) {
             if(gemPos.x > myPos.x) {
                 newX += hogSpeed;
             } else {
@@ -32,7 +32,7 @@ class Hogger extends Enemy {
         let newY = myPos.y;
 
         // Hogger to gem aura
-        if(this.distanceTo(gem) <= 4 * sphereRadius) {
+        if(this.distanceTo(gem) <= 4 * GameConfig.sphereRadius) {
             const gemPos = gem.getPosition();
             if(myPos.x > gemPos.x) {
                 newX += hogSpeed;
@@ -48,7 +48,7 @@ class Hogger extends Enemy {
 
         // Hogger to hogger aura
         hoggers.forEach(hogger => {
-            if(hogger !== this && this.distanceTo(hogger) <= 3 * sphereRadius) {
+            if(hogger !== this && this.distanceTo(hogger) <= 3 * GameConfig.sphereRadius) {
                 const hoggerPos = hogger.getPosition();
                 if(myPos.x > hoggerPos.x) {
                     newX += hogSpeed;
@@ -69,7 +69,7 @@ class Hogger extends Enemy {
 
         // Hogger to troll aura
         trolls.forEach(troll => {
-            if(this.distanceTo(troll) <= 4 * sphereRadius) {
+            if(this.distanceTo(troll) <= 4 * GameConfig.sphereRadius) {
                 const trollPos = troll.getPosition();
                 if(myPos.x > trollPos.x) {
                     newX += hogSpeed;

@@ -1,6 +1,6 @@
 class Chaser extends Enemy {
     constructor(geometry) {
-        super(geometry, 0x72A3C4, {});
+        super(geometry, GameConfig.colors.chaser, {});
     }
 
     seek(player) {
@@ -29,7 +29,7 @@ class Chaser extends Enemy {
         let newY = myPos.y;
 
         // Update gem aura
-        if(this.distanceTo(gem) <= 4 * sphereRadius) {
+        if(this.distanceTo(gem) <= 4 * GameConfig.sphereRadius) {
             const gemPos = gem.getPosition();
             
             if(newX > gemPos.x) {
@@ -46,7 +46,7 @@ class Chaser extends Enemy {
 
         // Chaser to chaser aura
         chasers.forEach(chaser => {
-            if(chaser !== this && this.distanceTo(chaser) <= 4 * sphereRadius) {
+            if(chaser !== this && this.distanceTo(chaser) <= 4 * GameConfig.sphereRadius) {
                 const chaserPos = chaser.getPosition();
                 
                 if(newX > chaserPos.x) {
@@ -68,7 +68,7 @@ class Chaser extends Enemy {
 
         // Chaser to hogger aura
         hoggers.forEach(hogger => {
-            if(this.distanceTo(hogger) <= 4 * sphereRadius) {
+            if(this.distanceTo(hogger) <= 4 * GameConfig.sphereRadius) {
                 const hoggerPos = hogger.getPosition();
                 
                 if(newX > hoggerPos.x) {
@@ -90,7 +90,7 @@ class Chaser extends Enemy {
 
         // Chaser to troll aura
         trolls.forEach(troll => {
-            if(this.distanceTo(troll) <= 3 * sphereRadius) {
+            if(this.distanceTo(troll) <= 3 * GameConfig.sphereRadius) {
                 const trollPos = troll.getPosition();
                 
                 if(newX > trollPos.x) {

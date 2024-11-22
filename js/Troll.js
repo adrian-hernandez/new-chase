@@ -1,6 +1,6 @@
 class Troll extends Enemy {
     constructor(geometry) {
-        super(geometry, 0x76F26F, {});
+        super(geometry, GameConfig.colors.troll, {});
     }
 
     seek() {
@@ -9,10 +9,9 @@ class Troll extends Enemy {
         let newX = myPos.x;
         let newY = myPos.y;
 
-        // When troll reaches bottom boundary, reset to top
-        if (myPos.y <= boundaries.bottom + sphereRadius) {
-            newX = enemyRangeX/2 - enemyRangeX * Math.random();
-            newY = boundaries.top - sphereRadius; // Place at top boundary
+        if (myPos.y <= boundaries.bottom + GameConfig.sphereRadius) {
+            newX = (boundaries.right - boundaries.left) * Math.random() + boundaries.left;
+            newY = boundaries.top - GameConfig.sphereRadius;
         } else {
             newY -= trollSpeed;
         }
@@ -26,7 +25,7 @@ class Troll extends Enemy {
         let newY = myPos.y;
 
         // Troll to gem aura
-        if(this.distanceTo(gem) <= 4 * sphereRadius) {
+        if(this.distanceTo(gem) <= 4 * GameConfig.sphereRadius) {
             const gemPos = gem.getPosition();
             if(myPos.x > gemPos.x) {
                 newX += trollSpeed;
@@ -42,7 +41,7 @@ class Troll extends Enemy {
 
         // Troll to troll aura
         trolls.forEach(troll => {
-            if(troll !== this && this.distanceTo(troll) <= 10 * sphereRadius) {
+            if(troll !== this && this.distanceTo(troll) <= 10 * GameConfig.sphereRadius) {
                 const trollPos = troll.getPosition();
                 if(myPos.x > trollPos.x) {
                     newX += trollSpeed;
