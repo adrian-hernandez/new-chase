@@ -7,8 +7,12 @@ body {
 .container {
   width: 50vw;
   height: 50vw;
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   margin: 0;
+  cursor: none;
 }
 
 .troll-style {
@@ -17,6 +21,17 @@ body {
   left: 10px;
   color: white;
   cursor: pointer;
+  z-index: 1;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.troll-style:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .chase-style {
@@ -25,6 +40,17 @@ body {
   right: 10px;
   color: white;
   cursor: pointer;
+  z-index: 1;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.chase-style:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .score {
@@ -33,6 +59,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   color: white;
+  z-index: 1;
 }
 
 .best-score {
@@ -41,4 +68,5 @@ body {
   left: 50%;
   transform: translateX(-50%);
   color: white;
+  z-index: 1;
 }
