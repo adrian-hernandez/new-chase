@@ -4,73 +4,90 @@ class Hogger extends Enemy {
     }
 
     seek(gem) {
-        if(this.mesh.position.distanceTo(gem.position) > 5 * sphereRadius) {
-            if(gem.position.x > this.mesh.position.x) {
-                this.mesh.position.x += hogSpeed;
+        const myPos = this.getPosition();
+        const gemPos = gem.getPosition();
+        let newX = myPos.x;
+        let newY = myPos.y;
+
+        // Only move if far enough from gem
+        if(this.distanceTo(gem) > 5 * sphereRadius) {
+            if(gemPos.x > myPos.x) {
+                newX += hogSpeed;
             } else {
-                this.mesh.position.x -= hogSpeed;
+                newX -= hogSpeed;
             }
-            if(gem.position.y > this.mesh.position.y) {
-                this.mesh.position.y += hogSpeed;
+            if(gemPos.y > myPos.y) {
+                newY += hogSpeed;
             } else {
-                this.mesh.position.y -= hogSpeed;
+                newY -= hogSpeed;
             }
         }
+
+        this.setPosition(newX, newY, 0);
     }
 
     enemyAura(gem, chasers, hoggers, trolls) {
+        const myPos = this.getPosition();
+        let newX = myPos.x;
+        let newY = myPos.y;
+
         // Hogger to gem aura
-        if(this.mesh.position.distanceTo(gem.position) <= 4 * sphereRadius) {
-            if(this.mesh.position.x > gem.position.x) {
-                this.mesh.position.x += hogSpeed;
+        if(this.distanceTo(gem) <= 4 * sphereRadius) {
+            const gemPos = gem.getPosition();
+            if(myPos.x > gemPos.x) {
+                newX += hogSpeed;
             } else {
-                this.mesh.position.x -= hogSpeed;
+                newX -= hogSpeed;
             }
-            if(this.mesh.position.y > gem.position.y) {
-                this.mesh.position.y += hogSpeed;
+            if(myPos.y > gemPos.y) {
+                newY += hogSpeed;
             } else {
-                this.mesh.position.y -= hogSpeed;
+                newY -= hogSpeed;
             }
         }
 
         // Hogger to hogger aura
         hoggers.forEach(hogger => {
-            if(hogger !== this && this.mesh.position.distanceTo(hogger.mesh.position) <= 3 * sphereRadius) {
-                if(this.mesh.position.x > hogger.mesh.position.x) {
-                    this.mesh.position.x += hogSpeed;
-                    hogger.mesh.position.x -= hogSpeed;
+            if(hogger !== this && this.distanceTo(hogger) <= 3 * sphereRadius) {
+                const hoggerPos = hogger.getPosition();
+                if(myPos.x > hoggerPos.x) {
+                    newX += hogSpeed;
+                    hogger.setPosition(hoggerPos.x - hogSpeed, hoggerPos.y, 0);
                 } else {
-                    this.mesh.position.x -= hogSpeed;
-                    hogger.mesh.position.x += hogSpeed;
+                    newX -= hogSpeed;
+                    hogger.setPosition(hoggerPos.x + hogSpeed, hoggerPos.y, 0);
                 }
-                if(this.mesh.position.y > hogger.mesh.position.y) {
-                    this.mesh.position.y += hogSpeed;
-                    hogger.mesh.position.y -= hogSpeed;
+                if(myPos.y > hoggerPos.y) {
+                    newY += hogSpeed;
+                    hogger.setPosition(hoggerPos.x, hoggerPos.y - hogSpeed, 0);
                 } else {
-                    this.mesh.position.y -= hogSpeed;
-                    hogger.mesh.position.y += hogSpeed;
+                    newY -= hogSpeed;
+                    hogger.setPosition(hoggerPos.x, hoggerPos.y + hogSpeed, 0);
                 }
             }
         });
 
         // Hogger to troll aura
         trolls.forEach(troll => {
-            if(this.mesh.position.distanceTo(troll.mesh.position) <= 4 * sphereRadius) {
-                if(this.mesh.position.x > troll.mesh.position.x) {
-                    this.mesh.position.x += hogSpeed;
-                    troll.mesh.position.x -= trollSpeed;
+            if(this.distanceTo(troll) <= 4 * sphereRadius) {
+                const trollPos = troll.getPosition();
+                if(myPos.x > trollPos.x) {
+                    newX += hogSpeed;
+                    troll.setPosition(trollPos.x - trollSpeed, trollPos.y, 0);
                 } else {
-                    this.mesh.position.x -= hogSpeed;
-                    troll.mesh.position.x += trollSpeed;
+                    newX -= hogSpeed;
+                    troll.setPosition(trollPos.x + trollSpeed, trollPos.y, 0);
                 }
-                if(this.mesh.position.y > troll.mesh.position.y) {
-                    this.mesh.position.y += hogSpeed;
-                    troll.mesh.position.y -= trollSpeed;
+                if(myPos.y > trollPos.y) {
+                    newY += hogSpeed;
+                    troll.setPosition(trollPos.x, trollPos.y - trollSpeed, 0);
                 } else {
-                    this.mesh.position.y -= hogSpeed;
-                    troll.mesh.position.y += trollSpeed;
+                    newY -= hogSpeed;
+                    troll.setPosition(trollPos.x, trollPos.y + trollSpeed, 0);
                 }
             }
         });
+
+        this.setPosition(newX, newY, 0);
     }
 } 

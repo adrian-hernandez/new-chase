@@ -4,47 +4,64 @@ class Troll extends Enemy {
     }
 
     seek() {
-        if (this.mesh.position.y < -enemyRangeY/2) {
-            this.mesh.position.x = enemyRangeX/2 - enemyRangeX * Math.random();
-            this.mesh.position.y = enemyRangeY/2;
+        const myPos = this.getPosition();
+        const boundaries = level.getVisibleBoundaries();
+        let newX = myPos.x;
+        let newY = myPos.y;
+
+        // When troll reaches bottom boundary, reset to top
+        if (myPos.y <= boundaries.bottom + sphereRadius) {
+            newX = enemyRangeX/2 - enemyRangeX * Math.random();
+            newY = boundaries.top - sphereRadius; // Place at top boundary
         } else {
-            this.mesh.position.y -= trollSpeed;
+            newY -= trollSpeed;
         }
+
+        this.setPosition(newX, newY, 0);
     }
 
     enemyAura(gem, chasers, hoggers, trolls) {
+        const myPos = this.getPosition();
+        let newX = myPos.x;
+        let newY = myPos.y;
+
         // Troll to gem aura
-        if(this.mesh.position.distanceTo(gem.position) <= 4 * sphereRadius) {
-            if(this.mesh.position.x > gem.position.x) {
-                this.mesh.position.x += trollSpeed;
+        if(this.distanceTo(gem) <= 4 * sphereRadius) {
+            const gemPos = gem.getPosition();
+            if(myPos.x > gemPos.x) {
+                newX += trollSpeed;
             } else {
-                this.mesh.position.x -= trollSpeed;
+                newX -= trollSpeed;
             }
-            if(this.mesh.position.y > gem.position.y) {
-                this.mesh.position.y += trollSpeed;
+            if(myPos.y > gemPos.y) {
+                newY += trollSpeed;
             } else {
-                this.mesh.position.y -= trollSpeed;
+                newY -= trollSpeed;
             }
         }
 
         // Troll to troll aura
         trolls.forEach(troll => {
-            if(troll !== this && this.mesh.position.distanceTo(troll.mesh.position) <= 10 * sphereRadius) {
-                if(this.mesh.position.x > troll.mesh.position.x) {
-                    this.mesh.position.x += trollSpeed;
-                    troll.mesh.position.x -= trollSpeed;
+            if(troll !== this && this.distanceTo(troll) <= 10 * sphereRadius) {
+                const trollPos = troll.getPosition();
+                if(myPos.x > trollPos.x) {
+                    newX += trollSpeed;
+                    troll.setPosition(trollPos.x - trollSpeed, trollPos.y, 0);
                 } else {
-                    this.mesh.position.x -= trollSpeed;
-                    troll.mesh.position.x += trollSpeed;
+                    newX -= trollSpeed;
+                    troll.setPosition(trollPos.x + trollSpeed, trollPos.y, 0);
                 }
-                if(this.mesh.position.y > troll.mesh.position.y) {
-                    this.mesh.position.y += trollSpeed;
-                    troll.mesh.position.y -= trollSpeed;
+                if(myPos.y > trollPos.y) {
+                    newY += trollSpeed;
+                    troll.setPosition(trollPos.x, trollPos.y - trollSpeed, 0);
                 } else {
-                    this.mesh.position.y -= trollSpeed;
-                    troll.mesh.position.y += trollSpeed;
+                    newY -= trollSpeed;
+                    troll.setPosition(trollPos.x, trollPos.y + trollSpeed, 0);
                 }
             }
         });
+
+        // Allow trolls to move beyond bottom boundary in aura calculations too
+        this.setPosition(newX, newY, 0, { bottom: true });
     }
 } 

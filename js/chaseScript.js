@@ -136,34 +136,32 @@ function chase() {
     }
 }
 
-//This function needs to be modified
-function hog(){
-  for ( let i = 0; i < hoggers.length; i++ ){
-    hoggers[i].seek(gem);
-    if (hoggers[i].checkCollision(player)) {
-        scoreDiv.innerHTML = "0";
-        isAlive = false;
+function hog() {
+    for (let i = 0; i < hoggers.length; i++) {
+        hoggers[i].seek(gem);
+        if (hoggers[i].distanceTo(player) < 2 * sphereRadius) {
+            scoreDiv.innerHTML = "0";
+            isAlive = false;
+        }
     }
-  }
-  if(!isAlive){
-    gotHit();
-    isAlive = true;
-  }
+    if(!isAlive) {
+        gotHit();
+        isAlive = true;
+    }
 }
 
-//This function need to be modified
-function trollOn(){
-  for ( let i = 0; i < trolls.length; i++ ){
-    trolls[i].seek();
-    if (trolls[i].checkCollision(player)) {
-        scoreDiv.innerHTML = "0";
-        isAlive = false;
+function trollOn() {
+    for (let i = 0; i < trolls.length; i++) {
+        trolls[i].seek();
+        if (trolls[i].distanceTo(player) < 2 * sphereRadius) {
+            scoreDiv.innerHTML = "0";
+            isAlive = false;
+        }
     }
-  }
-  if(!isAlive){
-    gotHit();
-    isAlive = true;
-  }
+    if(!isAlive) {
+        gotHit();
+        isAlive = true;
+    }
 }
 
 function enemyAura() {
