@@ -3,109 +3,78 @@ class Chaser extends Enemy {
         super(geometry, GameConfig.colors.chaser, {});
     }
 
-    seek(player) {
+    seek(player, speed) {
         const playerPos = player.getPosition();
         const myPos = this.getPosition();
         let newX = myPos.x;
         let newY = myPos.y;
 
         if(playerPos.x > myPos.x) {
-            newX += chaseSpeed;
+            newX += speed;
         } else {
-            newX -= chaseSpeed;
+            newX -= speed;
         }
         if(playerPos.y > myPos.y) {
-            newY += chaseSpeed;
+            newY += speed;
         } else {
-            newY -= chaseSpeed;
+            newY -= speed;
         }
 
         this.setPosition(newX, newY, 0);
     }
 
-    enemyAura(gem, chasers, hoggers, trolls) {
+    enemyAura(gem, chasers, hoggers, trolls, speeds) {
+        const { chase, hog, troll } = speeds;
         const myPos = this.getPosition();
         let newX = myPos.x;
         let newY = myPos.y;
 
-        // Update gem aura
         if(this.distanceTo(gem) <= 4 * GameConfig.sphereRadius) {
             const gemPos = gem.getPosition();
-            
-            if(newX > gemPos.x) {
-                newX += chaseSpeed;
-            } else {
-                newX -= chaseSpeed;
-            }
-            if(newY > gemPos.y) {
-                newY += chaseSpeed;
-            } else {
-                newY -= chaseSpeed;
-            }
+            if(newX > gemPos.x) newX += chase;
+            else newX -= chase;
+            if(newY > gemPos.y) newY += chase;
+            else newY -= chase;
         }
 
-        // Chaser to chaser aura
         chasers.forEach(chaser => {
             if(chaser !== this && this.distanceTo(chaser) <= 4 * GameConfig.sphereRadius) {
                 const chaserPos = chaser.getPosition();
-                
                 if(newX > chaserPos.x) {
-                    newX += chaseSpeed;
-                    chaserPos.x -= chaseSpeed;
-                } else {
-                    newX -= chaseSpeed;
-                    chaserPos.x += chaseSpeed;
+                    newX += chase;
+                    chaser.setPosition(chaserPos.x - chase, chaserPos.y, 0);
                 }
                 if(newY > chaserPos.y) {
-                    newY += chaseSpeed;
-                    chaserPos.y -= chaseSpeed;
-                } else {
-                    newY -= chaseSpeed;
-                    chaserPos.y += chaseSpeed;
+                    newY += chase;
+                    chaser.setPosition(chaserPos.x, chaserPos.y - chase, 0);
                 }
             }
         });
 
-        // Chaser to hogger aura
         hoggers.forEach(hogger => {
             if(this.distanceTo(hogger) <= 4 * GameConfig.sphereRadius) {
                 const hoggerPos = hogger.getPosition();
-                
                 if(newX > hoggerPos.x) {
-                    newX += chaseSpeed;
-                    hoggerPos.x -= hogSpeed;
-                } else {
-                    newX -= chaseSpeed;
-                    hoggerPos.x += hogSpeed;
+                    newX += chase;
+                    hogger.setPosition(hoggerPos.x - hog, hoggerPos.y, 0);
                 }
                 if(newY > hoggerPos.y) {
-                    newY += chaseSpeed;
-                    hoggerPos.y -= hogSpeed;
-                } else {
-                    newY -= chaseSpeed;
-                    hoggerPos.y += hogSpeed;
+                    newY += chase;
+                    hogger.setPosition(hoggerPos.x, hoggerPos.y - chase, 0);
                 }
             }
         });
 
-        // Chaser to troll aura
         trolls.forEach(troll => {
             if(this.distanceTo(troll) <= 3 * GameConfig.sphereRadius) {
                 const trollPos = troll.getPosition();
-                
                 if(newX > trollPos.x) {
-                    newX += chaseSpeed;
-                    trollPos.x -= trollSpeed;
-                } else {
-                    newX -= chaseSpeed;
-                    trollPos.x += trollSpeed;
+                    newX += chase;
+                    troll.setPosition(trollPos.x - troll, trollPos.y, 0);
                 }
                 if(newY > trollPos.y) {
-                    newY += chaseSpeed;
-                    trollPos.y -= trollSpeed;
-                } else {
-                    newY -= chaseSpeed;
-                    trollPos.y += trollSpeed;
+                    newY += chase;
+                    troll.setPosition(trollPos.x, trollPos.y - troll, 0);
                 }
             }
         });

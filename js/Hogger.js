@@ -3,7 +3,7 @@ class Hogger extends Enemy {
         super(geometry, GameConfig.colors.hogger, {});
     }
 
-    seek(gem) {
+    seek(gem, speed) {
         const myPos = this.getPosition();
         const gemPos = gem.getPosition();
         let newX = myPos.x;
@@ -12,21 +12,21 @@ class Hogger extends Enemy {
         // Only move if far enough from gem
         if(this.distanceTo(gem) > 5 * GameConfig.sphereRadius) {
             if(gemPos.x > myPos.x) {
-                newX += hogSpeed;
+                newX += speed;
             } else {
-                newX -= hogSpeed;
+                newX -= speed;
             }
             if(gemPos.y > myPos.y) {
-                newY += hogSpeed;
+                newY += speed;
             } else {
-                newY -= hogSpeed;
+                newY -= speed;
             }
         }
 
         this.setPosition(newX, newY, 0);
     }
 
-    enemyAura(gem, chasers, hoggers, trolls) {
+    enemyAura(gem, chasers, hoggers, trolls, speed) {
         const myPos = this.getPosition();
         let newX = myPos.x;
         let newY = myPos.y;
@@ -35,14 +35,14 @@ class Hogger extends Enemy {
         if(this.distanceTo(gem) <= 4 * GameConfig.sphereRadius) {
             const gemPos = gem.getPosition();
             if(myPos.x > gemPos.x) {
-                newX += hogSpeed;
+                newX += speed;
             } else {
-                newX -= hogSpeed;
+                newX -= speed;
             }
             if(myPos.y > gemPos.y) {
-                newY += hogSpeed;
+                newY += speed;
             } else {
-                newY -= hogSpeed;
+                newY -= speed;
             }
         }
 
@@ -51,39 +51,18 @@ class Hogger extends Enemy {
             if(hogger !== this && this.distanceTo(hogger) <= 3 * GameConfig.sphereRadius) {
                 const hoggerPos = hogger.getPosition();
                 if(myPos.x > hoggerPos.x) {
-                    newX += hogSpeed;
-                    hogger.setPosition(hoggerPos.x - hogSpeed, hoggerPos.y, 0);
+                    newX += speed;
+                    hogger.setPosition(hoggerPos.x - speed, hoggerPos.y, 0);
                 } else {
-                    newX -= hogSpeed;
-                    hogger.setPosition(hoggerPos.x + hogSpeed, hoggerPos.y, 0);
+                    newX -= speed;
+                    hogger.setPosition(hoggerPos.x + speed, hoggerPos.y, 0);
                 }
                 if(myPos.y > hoggerPos.y) {
-                    newY += hogSpeed;
-                    hogger.setPosition(hoggerPos.x, hoggerPos.y - hogSpeed, 0);
+                    newY += speed;
+                    hogger.setPosition(hoggerPos.x, hoggerPos.y - speed, 0);
                 } else {
-                    newY -= hogSpeed;
-                    hogger.setPosition(hoggerPos.x, hoggerPos.y + hogSpeed, 0);
-                }
-            }
-        });
-
-        // Hogger to troll aura
-        trolls.forEach(troll => {
-            if(this.distanceTo(troll) <= 4 * GameConfig.sphereRadius) {
-                const trollPos = troll.getPosition();
-                if(myPos.x > trollPos.x) {
-                    newX += hogSpeed;
-                    troll.setPosition(trollPos.x - trollSpeed, trollPos.y, 0);
-                } else {
-                    newX -= hogSpeed;
-                    troll.setPosition(trollPos.x + trollSpeed, trollPos.y, 0);
-                }
-                if(myPos.y > trollPos.y) {
-                    newY += hogSpeed;
-                    troll.setPosition(trollPos.x, trollPos.y - trollSpeed, 0);
-                } else {
-                    newY -= hogSpeed;
-                    troll.setPosition(trollPos.x, trollPos.y + trollSpeed, 0);
+                    newY -= speed;
+                    hogger.setPosition(hoggerPos.x, hoggerPos.y + speed, 0);
                 }
             }
         });

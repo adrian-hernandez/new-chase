@@ -3,11 +3,14 @@ class Enemy extends GameObject {
         super(geometry, color, position);
     }
 
-    seek(target) {
+    seek(target, speed) {
         // Base seeking behavior - to be overridden
+        // speed is a single number
     }
 
-    enemyAura(gem, chasers, hoggers, trolls) {
+    enemyAura(gem, chasers, hoggers, trolls, speed) {
         // Base aura behavior - to be overridden
+        // speed is a single number for Hogger/Troll
+        // speeds = { chase, hog, troll } for Chaser
     }
 } 

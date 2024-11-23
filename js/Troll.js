@@ -3,7 +3,7 @@ class Troll extends Enemy {
         super(geometry, GameConfig.colors.troll, {});
     }
 
-    seek() {
+    seek(speed) {
         const myPos = this.getPosition();
         const boundaries = level.getVisibleBoundaries();
         let newX = myPos.x;
@@ -13,13 +13,13 @@ class Troll extends Enemy {
             newX = (boundaries.right - boundaries.left) * Math.random() + boundaries.left;
             newY = boundaries.top - GameConfig.sphereRadius;
         } else {
-            newY -= trollSpeed;
+            newY -= speed;
         }
 
         this.setPosition(newX, newY, 0);
     }
 
-    enemyAura(gem, chasers, hoggers, trolls) {
+    enemyAura(gem, chasers, hoggers, trolls, speed) {
         const myPos = this.getPosition();
         let newX = myPos.x;
         let newY = myPos.y;
@@ -28,14 +28,14 @@ class Troll extends Enemy {
         if(this.distanceTo(gem) <= 4 * GameConfig.sphereRadius) {
             const gemPos = gem.getPosition();
             if(myPos.x > gemPos.x) {
-                newX += trollSpeed;
+                newX += speed;
             } else {
-                newX -= trollSpeed;
+                newX -= speed;
             }
             if(myPos.y > gemPos.y) {
-                newY += trollSpeed;
+                newY += speed;
             } else {
-                newY -= trollSpeed;
+                newY -= speed;
             }
         }
 
@@ -44,18 +44,18 @@ class Troll extends Enemy {
             if(troll !== this && this.distanceTo(troll) <= 10 * GameConfig.sphereRadius) {
                 const trollPos = troll.getPosition();
                 if(myPos.x > trollPos.x) {
-                    newX += trollSpeed;
-                    troll.setPosition(trollPos.x - trollSpeed, trollPos.y, 0);
+                    newX += speed;
+                    troll.setPosition(trollPos.x - speed, trollPos.y, 0);
                 } else {
-                    newX -= trollSpeed;
-                    troll.setPosition(trollPos.x + trollSpeed, trollPos.y, 0);
+                    newX -= speed;
+                    troll.setPosition(trollPos.x + speed, trollPos.y, 0);
                 }
                 if(myPos.y > trollPos.y) {
-                    newY += trollSpeed;
-                    troll.setPosition(trollPos.x, trollPos.y - trollSpeed, 0);
+                    newY += speed;
+                    troll.setPosition(trollPos.x, trollPos.y - speed, 0);
                 } else {
-                    newY -= trollSpeed;
-                    troll.setPosition(trollPos.x, trollPos.y + trollSpeed, 0);
+                    newY -= speed;
+                    troll.setPosition(trollPos.x, trollPos.y + speed, 0);
                 }
             }
         });
