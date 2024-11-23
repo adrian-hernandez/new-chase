@@ -20,8 +20,7 @@ class Level {
         
         // Setup renderer
         this.renderer = new THREE.WebGLRenderer({ alpha: false });
-        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-        document.body.appendChild(this.container);
+        this.renderer.setSize(600, 600);
         this.container.appendChild(this.renderer.domElement);
 
         // Setup camera
@@ -47,22 +46,23 @@ class Level {
     }
 
     getWorldBoundaries() {
-        const container = this.container;
+        // Since container is now 600x600 fixed size, we can be explicit
         return {
-            left: -container.clientWidth/2,
-            right: container.clientWidth/2,
-            top: container.clientHeight/2,
-            bottom: -container.clientHeight/2
+            left: -300,    // -600/2
+            right: 300,    // 600/2
+            top: 300,      // 600/2
+            bottom: -300   // -600/2
         };
     }
 
     getVisibleBoundaries() {
-        // Convert degrees to radians manually
+        // Convert degrees to radians
         const degToRad = degrees => degrees * (Math.PI / 180);
-        const vFOV = degToRad(70);
+        const vFOV = degToRad(70);  // vertical FOV
         
+        // Calculate visible height at camera's position
         const visibleHeight = 2 * Math.tan(vFOV / 2) * Math.abs(this.camera.position.z);
-        const visibleWidth = visibleHeight * (this.container.clientWidth / this.container.clientHeight);
+        const visibleWidth = visibleHeight * (600 / 600);  // Using fixed dimensions
 
         return {
             left: -visibleWidth / 2,

@@ -2,71 +2,65 @@ body {
   background-color: #1a1a1a;
   margin: 0;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game-wrapper {
+  position: relative;
+  width: 600px;
+  height: 670px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
 }
 
 .container {
-  width: 50vw;
-  height: 50vw;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
-  cursor: none;
+  width: 600px;
+  height: 600px;
+  position: relative;
 }
 
-.troll-style {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+.game-ui {
+  width: 600px;
+  height: 60px;
+  background-color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.chase-style, .troll-style {
   color: white;
-  cursor: pointer;
-  z-index: 1;
   font-family: Arial, sans-serif;
-  font-size: 20px;
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  font-size: 1.5rem;
+  cursor: pointer;
+  background: none;
+  border: 2px solid white;
+  padding: 8px 16px;
+  margin-right: 20px;
+  border-radius: 4px;
+  z-index: 3;
 }
 
-.troll-style:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+.chase-style:hover, .troll-style:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-.chase-style {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.score, .best-score {
   color: white;
-  cursor: pointer;
-  z-index: 1;
   font-family: Arial, sans-serif;
-  font-size: 20px;
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.chase-style:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 4rem;
+  margin-left: auto;
+  z-index: 3;
 }
 
 .score {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  z-index: 1;
-}
-
-.best-score {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  z-index: 1;
+  margin-right: 40px;
 }
