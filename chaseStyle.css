@@ -98,3 +98,21 @@ body {
 .score-lower {
   color: #FF0000 !important;  /* Red */
 }
+
+.quit {
+  width: 600px;  /* Same as container */
+  color: #FFA500;  /* Orange text */
+  background: none;
+  border: 2px solid #FFA500;  /* Orange border */
+  font-family: Arial, sans-serif;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 8px 16px;  /* Same padding as chase/troll buttons */
+  margin-top: 10px;  /* Space between container and quit button */
+  z-index: 3;
+}
+
+.quit:hover {
+  background-color: rgba(255, 165, 0, 0.1);  /* Orange with opacity for hover effect */
+}
