@@ -98,10 +98,19 @@ function chase() {
         troll: speedManager.getSpeed('troll')
     };
 
-    chasers.forEach(chaser => {
-        chaser.seek(player, chaseSpeed);
-        chaser.enemyAura(gem, chasers, hoggers, trolls, speeds);
-    });
+    for (let i = 0; i < chasers.length; i++) {
+        chasers[i].seek(player, chaseSpeed);
+        chasers[i].enemyAura(gem, chasers, hoggers, trolls, speeds);
+        
+        if (chasers[i].distanceTo(player) < 2 * GameConfig.sphereRadius) {
+            resetScore();
+            speedManager.updateSpeeds(0);
+            isAlive = false;
+            gotHit();
+            isAlive = true;
+            return;
+        }
+    }
 
     hoggers.forEach(hogger => {
         hogger.seek(gem, speedManager.getSpeed('hog'));
@@ -119,14 +128,13 @@ function hog() {
         const hogSpeed = speedManager.getSpeed('hog');
         hoggers[i].seek(gem, hogSpeed);
         if (hoggers[i].distanceTo(player) < 2 * GameConfig.sphereRadius) {
-            scoreDiv.innerHTML = "0";
+            resetScore();
             speedManager.updateSpeeds(0);
             isAlive = false;
+            gotHit();
+            isAlive = true;
+            return;
         }
-    }
-    if(!isAlive) {
-        gotHit();
-        isAlive = true;
     }
 }
 
@@ -135,14 +143,13 @@ function trollOn() {
         const trollSpeed = speedManager.getSpeed('troll');
         trolls[i].seek(trollSpeed);
         if (trolls[i].distanceTo(player) < 2 * GameConfig.sphereRadius) {
-            scoreDiv.innerHTML = "0";
+            resetScore();
             speedManager.updateSpeeds(0);
             isAlive = false;
+            gotHit();
+            isAlive = true;
+            return;
         }
-    }
-    if(!isAlive) {
-        gotHit();
-        isAlive = true;
     }
 }
 
@@ -180,15 +187,16 @@ function animate() {
 
     if (player.distanceTo(gem) < 2 * GameConfig.sphereRadius) {
         gem.resetPosition();
-        var score = Number(scoreDiv.innerHTML) + 1;
+        const currentScore = parseInt(document.querySelector('.score').textContent.replace('Score ', ''));
+        const newScore = currentScore + 1;
         collectedGem();
 
-        speedManager.updateSpeeds(score);
+        speedManager.updateSpeeds(newScore);
+        updateScore(newScore);
         
-        scoreDiv.innerHTML = score.toString();
-        var best = bestScoreDiv.innerHTML.split(' ');
-        if (score > Number(best[1])) {
-            bestScoreDiv.innerHTML = best[0] + " " + score.toString();
+        const bestScore = parseInt(document.querySelector('.best-score').textContent.replace('Best ', ''));
+        if (newScore > bestScore) {
+            bestScoreDiv.innerHTML = 'Best ' + newScore;
         }
     }
 
@@ -211,3 +219,30 @@ document.addEventListener('DOMContentLoaded', function() {
     trollEl.onclick = () => initGameVersion('troll');
     chaseEl.onclick = () => initGameVersion('chase');
 });
+
+function resetScore() {
+    updateScore(0);
+}
+
+function updateScore(newScore) {
+    document.querySelector('.score').textContent = 'Score ' + newScore;
+    updateScoreColor();
+}
+
+function updateScoreColor() {
+    const scoreEl = document.querySelector('.score');
+    const currentScore = parseInt(scoreEl.textContent.replace('Score ', ''));
+    const bestScore = parseInt(document.querySelector('.best-score').textContent.replace('Best ', ''));
+
+    // Remove any existing color classes
+    scoreEl.classList.remove('score-higher', 'score-equal', 'score-lower');
+
+    // Add appropriate color class
+    if (currentScore > bestScore) {
+        scoreEl.classList.add('score-higher');
+    } else if (currentScore === bestScore) {
+        scoreEl.classList.add('score-equal');
+    } else {
+        scoreEl.classList.add('score-lower');
+    }
+}
