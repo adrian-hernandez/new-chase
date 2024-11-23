@@ -215,9 +215,11 @@ function initGameVersion(version) {
 document.addEventListener('DOMContentLoaded', function() {
     const trollEl = document.querySelector('.troll-style');
     const chaseEl = document.querySelector('.chase-style');
+    const quitEl = document.querySelector('.quit');
     
     trollEl.onclick = () => initGameVersion('troll');
     chaseEl.onclick = () => initGameVersion('chase');
+    quitEl.onclick = () => destructor();
 });
 
 function resetScore() {
@@ -245,4 +247,63 @@ function updateScoreColor() {
     } else {
         scoreEl.classList.add('score-lower');
     }
+}
+
+function destructor() {
+    // Cancel animation frame
+    if (anim) {
+        cancelAnimationFrame(anim);
+    }
+
+    // Stop audio
+    audio.pause();
+    audio.currentTime = 0;
+
+    // Remove event listener
+    level.getContainer().removeEventListener('mousemove', onMouseMove);
+
+    // Remove all meshes from scene
+    if (player && player.mesh) {
+        level.getScene().remove(player.mesh);
+        player.mesh.geometry.dispose();
+        player.mesh.material.dispose();
+    }
+
+    if (gem && gem.mesh) {
+        level.getScene().remove(gem.mesh);
+        gem.mesh.geometry.dispose();
+        gem.mesh.material.dispose();
+    }
+
+    // Clear enemy arrays and remove their meshes
+    chasers.forEach(chaser => {
+        level.getScene().remove(chaser.mesh);
+        chaser.mesh.geometry.dispose();
+        chaser.mesh.material.dispose();
+    });
+    chasers = [];
+
+    hoggers.forEach(hogger => {
+        level.getScene().remove(hogger.mesh);
+        hogger.mesh.geometry.dispose();
+        hogger.mesh.material.dispose();
+    });
+    hoggers = [];
+
+    trolls.forEach(troll => {
+        level.getScene().remove(troll.mesh);
+        troll.mesh.geometry.dispose();
+        troll.mesh.material.dispose();
+    });
+    trolls = [];
+
+    // Reset score to 0
+    resetScore();
+
+    // Reset game state
+    isAlive = true;
+    allowStart = false;
+
+    // Render empty scene
+    level.getRenderer().render(level.getScene(), level.getCamera());
 }
