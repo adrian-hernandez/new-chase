@@ -3,9 +3,11 @@ body {
   margin: 0;
   overflow: hidden;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding-top: 5px;
+  box-sizing: border-box;
 }
 
 .game-wrapper {
@@ -116,4 +118,14 @@ body {
 
 .quit:hover {
   background-color: rgba(255, 165, 0, 0.1);  /* Orange with opacity for hover effect */
+}
+
+.game-title {
+  color: white;
+  font-family: 'Righteous', Arial, sans-serif;
+  font-size: 4rem;
+  text-align: center;
+  margin: 0 0 0 0;
+  text-transform: uppercase;
+  letter-spacing: 4px;
 }
