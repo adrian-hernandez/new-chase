@@ -42,8 +42,8 @@ class Level {
         this.light.intensity = 3;
         this.scene.add(this.light);
 
-        // Setup geometry
-        this.geometry = new THREE.SphereGeometry(sphereRadius);
+        // Setup geometry using GameConfig.sphereRadius
+        this.geometry = new THREE.SphereGeometry(GameConfig.sphereRadius);
     }
 
     getWorldBoundaries() {

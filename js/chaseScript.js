@@ -9,10 +9,6 @@ var trollSpeed = 1;
 var isAlive = true;
 var scoreDiv = document.querySelector('.score');
 var bestScoreDiv = document.querySelector('.best-score');
-var sphereRadius = 10;
-var enemyRangeX = 750;
-var enemyRangeY = 700;
-var gemRange = 500;
 var anim;
 var allowStart;
 var hit = new Audio('./audio/explode.mp3');
@@ -125,7 +121,7 @@ function chase() {
         }
         
         chasers[i].seek(player);
-        if (chasers[i].distanceTo(player) < 2 * sphereRadius) {
+        if (chasers[i].distanceTo(player) < 2 * GameConfig.sphereRadius) {
             scoreDiv.innerHTML = "0";
             isAlive = false;
         }
@@ -139,7 +135,7 @@ function chase() {
 function hog() {
     for (let i = 0; i < hoggers.length; i++) {
         hoggers[i].seek(gem);
-        if (hoggers[i].distanceTo(player) < 2 * sphereRadius) {
+        if (hoggers[i].distanceTo(player) < 2 * GameConfig.sphereRadius) {
             scoreDiv.innerHTML = "0";
             isAlive = false;
         }
@@ -153,7 +149,7 @@ function hog() {
 function trollOn() {
     for (let i = 0; i < trolls.length; i++) {
         trolls[i].seek();
-        if (trolls[i].distanceTo(player) < 2 * sphereRadius) {
+        if (trolls[i].distanceTo(player) < 2 * GameConfig.sphereRadius) {
             scoreDiv.innerHTML = "0";
             isAlive = false;
         }
@@ -191,7 +187,7 @@ function animate() {
     trollOn();
     enemyAura();
 
-    if (player.distanceTo(gem) < 2 * sphereRadius) {
+    if (player.distanceTo(gem) < 2 * GameConfig.sphereRadius) {
         gem.resetPosition();
         var score = Number(scoreDiv.innerHTML) + 1;
         collectedGem();
